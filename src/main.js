@@ -89,7 +89,7 @@ class App {
   }
 
   main (event) {
-    const { Body, Vector } = Matter
+    const { Body, Composite, Vector } = Matter
     const hero = this.hero
     const timeStep = event?.delta || 0
     const keysPressed = this.playerInput.keysPressed
@@ -113,6 +113,20 @@ class App {
     }
 
     if (keysPressed['ArrowUp']) {
+      const moveVector = Vector.create(
+        -moveSpeed * Math.cos(hero?.body.angle),
+        -moveSpeed * Math.sin(hero?.body.angle)
+      )
+      Body.applyForce(hero?.body, hero?.body.position, moveVector)
+    }
+
+    if (keysPressed[' ']) {
+      this.entities.forEach(ent => {
+        if (ent.data.type === 'cargo' && ent.data.attachedTo) {
+          Composite.remove(this.matterJsEngine.world, ent.data.attachedTo)
+          delete ent.data.attachedTo
+        }
+      })
       const moveVector = Vector.create(
         -moveSpeed * Math.cos(hero?.body.angle),
         -moveSpeed * Math.sin(hero?.body.angle)
