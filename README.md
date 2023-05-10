@@ -1,12 +1,12 @@
 # Starter Web App
 
-Starter template for HTML5 + JavaScript + Sass web app projects.
+Hackday experiment using Matter.js to create a game about a spaceship awkwardly delivering cargo.
 
 Created by [Shaun A. Noordin](https://shaunanoordin.com).
 
 ## How to Use
 
-Start the web app by accessing `index.html` from your web browser. (Compatible with Chrome 89 and Firefox 87.)
+Start the web app by accessing `index.html` from your web browser. (Compatible with Chrome 112 and Firefox 112.)
 
 ## Development Notes
 
