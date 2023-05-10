@@ -74,27 +74,33 @@ class App {
 
   main (event) {
     const { Body, Vector } = Matter
+    const hero = this.hero
     const timeStep = event?.delta || 0
     const keysPressed = this.playerInput.keysPressed
     const moveSpeed = 0.005
+    const rotateSpeed = 0.1
 
     if (keysPressed['ArrowLeft']) {
-      const moveVector = Vector.create(-moveSpeed, 0)
-      Body.applyForce(this.hero, this.hero.position, moveVector)
+      Body.rotate(hero, -rotateSpeed)
     }
 
     if (keysPressed['ArrowRight']) {
-      const moveVector = Vector.create(+moveSpeed, 0)
-      Body.applyForce(this.hero, this.hero.position, moveVector)
+      Body.rotate(hero, +rotateSpeed)
     }
 
     if (keysPressed['ArrowUp']) {
-      const moveVector = Vector.create(0, -moveSpeed)
+      const moveVector = Vector.create(
+        moveSpeed * Math.cos(hero.angle),
+        moveSpeed * Math.sin(hero.angle)
+      )
       Body.applyForce(this.hero, this.hero.position, moveVector)
     }
 
     if (keysPressed['ArrowDown']) {
-      const moveVector = Vector.create(0, +moveSpeed)
+      const moveVector = Vector.create(
+        -moveSpeed * Math.cos(hero.angle),
+        -moveSpeed * Math.sin(hero.angle)
+      )
       Body.applyForce(this.hero, this.hero.position, moveVector)
     }
 
