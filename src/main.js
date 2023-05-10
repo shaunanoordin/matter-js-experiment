@@ -149,7 +149,16 @@ class App {
       if (entB.data.type === 'hero') [ entA, entB ] = [ entB, entA ]  // Swap to simplify
 
       if (entA.data.type === 'hero' && entB.data.type === 'cargo') {
-        console.log('+++')
+        const cargo = entB
+        if (!cargo.data.attachedTo) {
+          const constraint = Matter.Constraint.create({
+            bodyA: entA.body,
+            bodyB: entB.body,
+            stiffness: 0.001,
+          })
+          Matter.Composite.add(this.matterJsEngine.world, constraint)
+          cargo.data.attachedTo = constraint
+        }
       }
     })
   }
