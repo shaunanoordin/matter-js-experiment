@@ -1,4 +1,4 @@
-# Starter Web App
+# Matter.js Experiment
 
 Hackday experiment using Matter.js to create a game about a spaceship awkwardly delivering cargo.
 
