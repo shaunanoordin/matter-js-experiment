@@ -31,10 +31,14 @@ class App {
     // Create objects
     this.entities = []
     this.hero = this.createEntity(
-      {},
+      {
+        type: 'hero',
+        moveSpeed: 0.008,
+        turnSpeed: 0.05
+      },
       Bodies.rectangle(
         this.canvasWidth / 2, 100,
-        20, 40,
+        40, 80,
         {
           angle: Math.PI/2,
           render: {
@@ -43,8 +47,8 @@ class App {
         }
       )
     )
-    this.createEntity({}, Bodies.rectangle(400, 200, 10, 20))
-    this.createEntity({}, Bodies.rectangle(450, 50, 10, 20))
+    this.createEntity({ type: 'cargo' }, Bodies.rectangle(400, 200, 40, 40))
+    this.createEntity({ type: 'cargo' }, Bodies.rectangle(450, 50, 40, 40))
     this.createEntity({}, Bodies.rectangle(this.canvasWidth / 2, 0, this.canvasWidth, 20, { isStatic: true }))
     this.createEntity({}, Bodies.rectangle(this.canvasWidth / 2, this.canvasHeight, this.canvasWidth, 20, { isStatic: true }))
     this.createEntity({}, Bodies.rectangle(0, this.canvasHeight / 2, 20, this.canvasHeight, { isStatic: true }))
@@ -88,15 +92,15 @@ class App {
     const hero = this.hero
     const timeStep = event?.delta || 0
     const keysPressed = this.playerInput.keysPressed
-    const moveSpeed = 0.005
-    const rotateSpeed = 0.1
+    const moveSpeed = hero.data.moveSpeed
+    const turnSpeed = hero.data.turnSpeed
 
     if (keysPressed['ArrowLeft']) {
-      Body.rotate(hero?.body, -rotateSpeed)
+      Body.rotate(hero?.body, -turnSpeed)
     }
 
     if (keysPressed['ArrowRight']) {
-      Body.rotate(hero?.body, +rotateSpeed)
+      Body.rotate(hero?.body, +turnSpeed)
     }
 
     if (keysPressed['ArrowDown']) {
