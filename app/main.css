@@ -25,15 +25,6 @@ a:hover {
   color: #e66;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-table td,
-table th {
-  border: 1px solid #444;
-}
-
 #app {
   display: flex;
   flex-direction: column;
@@ -47,20 +38,33 @@ table th {
 #app > header,
 #app > footer {
   flex: 0 0 auto;
-  padding: 1em;
+  padding: 0.125em;
   background: #c44;
+  font-size: 0.5em;
   color: #eee;
 }
 #app > header h1,
 #app > footer h1 {
+  font-size: 1em;
   margin: 0;
   padding: 0;
+}
+#app > header a,
+#app > footer a {
+  color: #fff;
 }
 
 #app > main {
   flex: 1 1 auto;
-  padding: 1em;
   background: #fff;
+}
+#app > main canvas {
+  flex: 0 0 auto;
+  display: block;
+  margin: auto auto;
+  max-width: 100vw;
+  max-height: 95vh;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=main.css.map */
