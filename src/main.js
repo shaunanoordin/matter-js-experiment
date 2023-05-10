@@ -47,8 +47,8 @@ class App {
         }
       )
     )
-    this.createEntity({ type: 'cargo' }, Bodies.rectangle(400, 200, 40, 40))
-    this.createEntity({ type: 'cargo' }, Bodies.rectangle(450, 50, 40, 40))
+    this.createEntity({ type: 'cargo' }, Bodies.rectangle(400, 400, 40, 40))
+    this.createEntity({ type: 'cargo' }, Bodies.rectangle(600, 400, 40, 40))
     this.createEntity({}, Bodies.rectangle(this.canvasWidth / 2, 0, this.canvasWidth, 20, { isStatic: true }))
     this.createEntity({}, Bodies.rectangle(this.canvasWidth / 2, this.canvasHeight, this.canvasWidth, 20, { isStatic: true }))
     this.createEntity({}, Bodies.rectangle(0, this.canvasHeight / 2, 20, this.canvasHeight, { isStatic: true }))
@@ -65,6 +65,7 @@ class App {
     }
 
     Events.on(this.matterJsEngine, 'beforeUpdate', this.main.bind(this))
+    Events.on(this.matterJsEngine, 'collisionStart', this.onCollisionStart.bind(this))
     document.addEventListener('keydown', this.onKeyDown.bind(this))
     document.addEventListener('keyup', this.onKeyUp.bind(this))
 
@@ -140,6 +141,22 @@ class App {
     this.playerInput.keysPressed[e.key] = undefined
   }
 
+  onCollisionStart (e) {
+    e.pairs.forEach(pair => {
+      let entA = this.findEntityByBody(pair.bodyA)
+      let entB = this.findEntityByBody(pair.bodyB)
+      if (!entA || !entB) return
+      if (entB.data.type === 'hero') [ entA, entB ] = [ entB, entA ]  // Swap to simplify
+
+      if (entA.data.type === 'hero' && entB.data.type === 'cargo') {
+        console.log('+++')
+      }
+    })
+  }
+
+  findEntityByBody (body) {
+    return this.entities.find(entity => entity.body === body)
+  }
 }
 
 class Entity {
