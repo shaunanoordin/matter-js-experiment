@@ -30,7 +30,18 @@ class App {
 
     // Create objects
     this.entities = []
-    this.hero = this.createEntity(Bodies.circle(this.canvasWidth / 2, 100, 20, { render: { fillStyle: '#c04040' } }))
+    this.hero = this.createEntity(
+      Bodies.rectangle(
+        this.canvasWidth / 2, 100,
+        20, 40,
+        {
+          angle: Math.PI/2,
+          render: {
+            strokeStyle: '#060a19'
+          }
+        }
+      )
+    )
     this.createEntity(Bodies.rectangle(400, 200, 10, 20))
     this.createEntity(Bodies.rectangle(450, 50, 10, 20))
     this.createEntity(Bodies.rectangle(this.canvasWidth / 2, 0, this.canvasWidth, 20, { isStatic: true }))
@@ -88,7 +99,7 @@ class App {
       Body.rotate(hero, +rotateSpeed)
     }
 
-    if (keysPressed['ArrowUp']) {
+    if (keysPressed['ArrowDown']) {
       const moveVector = Vector.create(
         moveSpeed * Math.cos(hero.angle),
         moveSpeed * Math.sin(hero.angle)
@@ -96,7 +107,7 @@ class App {
       Body.applyForce(this.hero, this.hero.position, moveVector)
     }
 
-    if (keysPressed['ArrowDown']) {
+    if (keysPressed['ArrowUp']) {
       const moveVector = Vector.create(
         -moveSpeed * Math.cos(hero.angle),
         -moveSpeed * Math.sin(hero.angle)
