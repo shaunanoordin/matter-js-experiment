@@ -31,6 +31,7 @@ class App {
     // Create objects
     this.entities = []
     this.hero = this.createEntity(
+      {},
       Bodies.rectangle(
         this.canvasWidth / 2, 100,
         20, 40,
@@ -42,12 +43,12 @@ class App {
         }
       )
     )
-    this.createEntity(Bodies.rectangle(400, 200, 10, 20))
-    this.createEntity(Bodies.rectangle(450, 50, 10, 20))
-    this.createEntity(Bodies.rectangle(this.canvasWidth / 2, 0, this.canvasWidth, 20, { isStatic: true }))
-    this.createEntity(Bodies.rectangle(this.canvasWidth / 2, this.canvasHeight, this.canvasWidth, 20, { isStatic: true }))
-    this.createEntity(Bodies.rectangle(0, this.canvasHeight / 2, 20, this.canvasHeight, { isStatic: true }))
-    this.createEntity(Bodies.rectangle(this.canvasWidth, this.canvasHeight / 2, 20, this.canvasHeight, { isStatic: true }))
+    this.createEntity({}, Bodies.rectangle(400, 200, 10, 20))
+    this.createEntity({}, Bodies.rectangle(450, 50, 10, 20))
+    this.createEntity({}, Bodies.rectangle(this.canvasWidth / 2, 0, this.canvasWidth, 20, { isStatic: true }))
+    this.createEntity({}, Bodies.rectangle(this.canvasWidth / 2, this.canvasHeight, this.canvasWidth, 20, { isStatic: true }))
+    this.createEntity({}, Bodies.rectangle(0, this.canvasHeight / 2, 20, this.canvasHeight, { isStatic: true }))
+    this.createEntity({}, Bodies.rectangle(this.canvasWidth, this.canvasHeight / 2, 20, this.canvasHeight, { isStatic: true }))
 
     // Add objects to world
     // Composite.add(this.matterJsEngine.world, [boxA, boxB, ground])
@@ -69,17 +70,16 @@ class App {
     Runner.run(this.matterJsRunner, this.matterJsEngine)
   }
 
-  createEntity (entity) {
+  createEntity (data, body) {
     const {
       Composite
      } = Matter
 
-    if (!entity) return
+    if (!data || !body) return
 
+    const entity = new Entity(data, body)
     this.entities.push(entity)
-    Composite.add(this.matterJsEngine.world, entity)
-
-    console.log(entity)
+    Composite.add(this.matterJsEngine.world, entity.body)
     return entity
   }
 
@@ -92,27 +92,27 @@ class App {
     const rotateSpeed = 0.1
 
     if (keysPressed['ArrowLeft']) {
-      Body.rotate(hero, -rotateSpeed)
+      Body.rotate(hero?.body, -rotateSpeed)
     }
 
     if (keysPressed['ArrowRight']) {
-      Body.rotate(hero, +rotateSpeed)
+      Body.rotate(hero?.body, +rotateSpeed)
     }
 
     if (keysPressed['ArrowDown']) {
       const moveVector = Vector.create(
-        moveSpeed * Math.cos(hero.angle),
-        moveSpeed * Math.sin(hero.angle)
+        moveSpeed * Math.cos(hero?.body.angle),
+        moveSpeed * Math.sin(hero?.body.angle)
       )
-      Body.applyForce(this.hero, this.hero.position, moveVector)
+      Body.applyForce(hero?.body, hero?.body.position, moveVector)
     }
 
     if (keysPressed['ArrowUp']) {
       const moveVector = Vector.create(
-        -moveSpeed * Math.cos(hero.angle),
-        -moveSpeed * Math.sin(hero.angle)
+        -moveSpeed * Math.cos(hero?.body.angle),
+        -moveSpeed * Math.sin(hero?.body.angle)
       )
-      Body.applyForce(this.hero, this.hero.position, moveVector)
+      Body.applyForce(hero?.body, hero?.body.position, moveVector)
     }
 
     // Increment the duration of each currently pressed key
@@ -136,6 +136,13 @@ class App {
     this.playerInput.keysPressed[e.key] = undefined
   }
 
+}
+
+class Entity {
+  constructor (data, body) {
+    this.data = data
+    this.body = body
+  }
 }
 
 /*
